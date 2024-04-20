@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RaniVari Meat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 2rem;
+        }
+
+        #products {
+            flex-basis: 70%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+       .product {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            text-align: center;
+            width: 200px;
+        }
+
+        #amount-box {
+            background-color: #ffcc00;
+            flex-basis: 30%;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        #payment-details {
+            background-color: #66cc66;
+            flex-basis: 30%;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        #bill {
+            background-color: #0066cc;
+            flex-basis: 30%;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to RaniVari Meat</h1>
+        <p>We sell fresh meat.</p>
+    </header>
+    <main>
+        <section id="products">
+            <!-- Products will be inserted here by JavaScript -->
+        </section>
+        <section id="amount-box">
+            <h2>Amount Box</h2>
+            <p>Total Cost: <span id="total-cost">$0.00</span></p>
+            <button id="checkout-button">Checkout</button>
+        </section>
+        <section id="payment-details">
+            <h2>Payment Details</h2>
+            <form id="payment-form">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+                <br>
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+                <br>
+                <button type="submit">Place Order</button>
+            </form>
+        </section>
+        <section id="bill">
+            <!-- Bill will be inserted here by JavaScript -->
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 RaniVari Meat</p>
+    </footer>
+    <script>
+        const products = [
+            {
+                name: 'Basa Fish',
+                image: 'basa-fish.jpg',
+                price: 15,
+                weight: 1,
+            },
+            {
+                name: 'Rupchand Fish',
+                image: 'rupchand-fish.jpg',
+                price: 20,
+                weight: 1,
+            },
+            {
+                name: 'Brown Crab',
+                image: 'brown-crab.jpg',
+                price: 30,
+                weight: 1,
+            },
+            {
+                name: 'Prawns',
+                image: 'prawns.jpg',
+                price: 25,
+                weight: 1,
+            },
+            {
+                name: 'Roasters',
+                image: 'roasters.jpg',
+                price: 12,
+                weight: 1,
+            },
+            {
+                name: 'Broilers',
+                image: 'broilers.jpg',
+                price: 10,
+                weight: 1,
+            },
+            {
+                name: 'Mutton Body',
+                image: 'mutton-body.jpg',
+                price: 22,
+                weight: 1,
+            },
+            {
+                name: 'Mutton Head',
+                image: 'mutton-head.jpg',
+                price: 18,
+                weight: 1,
+            },
+            {
+                name: 'Pork',
+                image: 'pork.jpg',
+                price: 16,
+                weight: 1,
+            },
+            {
+                name: 'Beef',
+                image: 'beef.jpg',
+                price: 20,
+                weight: 1,
+            },
+        ];
+
+        const productsSection = document.getElementById('products');
+        lettotalCost = 0;
+
+        products.forEach(product => {
+            const productElement = document.createElement('div');
+            productElement.classList.add('product');
+
+            const imageElement = document.createElement('img');
+            imageElement.src = product.image;
+            imageElement.alt = product.name;
+            productElement.appendChild(imageElement);
+
+            const nameElement = document.createElement('h3');
+            nameElement.textContent = product.name;
+            productElement.appendChild(nameElement);
+
+            const priceElement = document.createElement('p');
+            priceElement.textContent = `Price per kg: $${product.price}`;
+            productElement.appendChild(priceElement);
+
+            const quantityElement = document.createElement('input');
+            quantityElement.type = 'number';
+            quantityElement.min = '0';
+            quantityElement.value = '0';
+            productElement.appendChild(quantityElement);
+
+            const addToCartButton = document.createElement('button');
+            addToCartButton.textContent = 'Add to Cart';
+            productElement.appendChild(addToCartButton);
+
+            productsSection.appendChild(productElement);
+
+            addToCartButton.addEventListener('click', () => {
+                const quantity = parseInt(quantityElement.value);
+                if (quantity > 0) {
+                    totalCost += product.price * quantity;
+                }
+
+                updateAmountBox();
+            });
+        });
+
+        function updateAmountBox() {
+            const totalCostElement = document.getElementById('total-cost');
+            totalCostElement.textContent = `$${totalCost.toFixed(2)}`;
+        }
+
+        const checkoutButton = document.getElementById('checkout-button');
+        checkoutButton.addEventListener('click', () => {
+            const paymentDetailsSection = document.getElementById('payment-details');
+            paymentDetailsSection.style.display = 'block';
+        });
+
+        const paymentForm = document.getElementById('payment-form');
+        paymentForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value;
+
+            const billSection = document.getElementById('bill');
+
+            const billElement = document.createElement('div');
+            billElement.classList.add('bill');
+
+            const actualTotalPriceElement = document.createElement('p');
+            actualTotalPriceElement.textContent = `Actual Total Price: $${totalCost.toFixed(2)}`;
+            billElement.appendChild(actualTotalPriceElement);
+
+            let discountPrice = 0;
+            if (totalCost > 2000) {
+                discountPrice = totalCost * 0.2;
+            }
+
+            const discountPriceElement = document.createElement('p');
+            discountPriceElement.textContent = `Discount Price: -$${discountPrice.toFixed(2)}`;
+            billElement.appendChild(discountPriceElement);
+
+            const priceAfterDiscountElement = document.createElement('p');
+            priceAfterDiscountElement.textContent = `Price After Discount: $${(totalCost - discountPrice).toFixed(2)}`;
+            billElement.appendChild(priceAfterDiscountElement);
+
+            billSection.appendChild(billElement);
+
+            const thankYouSection = document.createElement('div');
+            thankYouSection.classList.add('thank-you');
+
+            const thankYouMessageElement = document.createElement('p');
+            thankYouMessageElement.textContent = 'Thank You for shopping with us! Your order is confirmed.';
+            thankYouSection.appendChild(thankYouMessageElement);
+
+            billSection.appendChild(thankYouSection);
+        });
+    </script>
+</body>
+</html>
